@@ -1,0 +1,19 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+   Search result for {{ query }}
+{% endblock %}
+
+{% block body %}
+ 
+  {% if not entrylist %}
+    {{ message }}
+  {% else %}
+  <ul> 
+    {% for entry in entrylist %}    
+        <li><a href={% url 'title' entry %}>{{ entry }}</a></li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+   
+{% endblock %}
