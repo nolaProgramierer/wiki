@@ -5,6 +5,6 @@ from . import views
 urlpatterns = [
     path("", views.index, name="index"),
     path("wiki/<str:title>", views.entry, name="title"),
-    path("random", views.random, name="random")
-    
+    path("random", views.random, name="random"),
+    path("add", views.add, name="add"),
 ]
