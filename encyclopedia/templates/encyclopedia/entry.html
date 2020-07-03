@@ -6,9 +6,8 @@
 
 {% block body %}
 
-<h1>Wiki entry</h1>
-{{ entry }}
-{{ random_entry }}
+<h3>Wiki entry</h3>
+{{ entry|safe }}
 <form action="/edit">
     {% csrf_token %}
     <input type="hidden" name="content" value="{{entry}}">

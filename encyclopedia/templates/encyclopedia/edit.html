@@ -6,7 +6,7 @@
 
 {% block body %}
 <h4> Edit {{ title }} content</h4>
-<h6> Please use markdown</h6>
+<h6> Please use markdown when editing</h6>
 <form action="{% url 'edit' %}" method="POST">
 {% csrf_token %}
 {{ message }}

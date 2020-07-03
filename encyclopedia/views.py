@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
 from . import util
 from random import randint
+from markdown2 import markdown
 
 
 class NewEntryForm(forms.Form):
@@ -13,7 +14,7 @@ class NewEntryForm(forms.Form):
 
 class EditEntryForm(forms.Form):
     entry = forms.CharField(label="Edit Entry", widget=forms.Textarea)
-    title = forms.CharField(label = "Title")
+    title = forms.CharField(label="Title")
 
 
 # GET request in form returns query result
@@ -52,7 +53,7 @@ def entry(request, title):
     return render(
         request,
         "encyclopedia/entry.html",
-        {"entry": util.get_entry(title), "title": title},
+        {"entry": markdown(util.get_entry(title)), "title": title},
     )
 
 
@@ -64,7 +65,7 @@ def random(request):
     return render(
         request,
         "encyclopedia/entry.html",
-        {"random_entry": util.get_entry(list[random_num])},
+        {"entry": markdown(util.get_entry(list[random_num]))},
     )
 
 
@@ -102,9 +103,12 @@ def edit(request):
             return render(
                 request,
                 "encyclopedia/entry.html",
-                {"entry": util.get_entry(title), "title": title}
+                {
+                    "entry": markdown(util.get_entry(title)),
+                    "title": title,
+                },
             )
-            
+
         else:
             message = "Invalid form submission."
             return render(request, "encyclopedia/edit.html", {"message": message})
@@ -114,6 +118,13 @@ def edit(request):
     return render(
         request,
         "encyclopedia/edit.html",
-        {"form": EditEntryForm(initial={"entry": content, "title": title})}
+        {
+            "form": EditEntryForm(
+                initial={
+                    "entry": util.get_entry(title),
+                    "title": title,
+                }
+            )
+        },
     )
 

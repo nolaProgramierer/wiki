@@ -1,1 +1,1 @@
-Prefer C++
+Prefer C++.
