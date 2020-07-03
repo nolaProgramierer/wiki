@@ -11,7 +11,7 @@ Search result for {{ query }}
 {% else %}
 <ul>
   {% for entry in entrylist %}
-  <li><a href={% url 'title' entry %}>{{ entry }}</a></li>
+  <li><a href="{% url 'title' title=entry %}">{{ entry }}</a></li>
   {% endfor %}
 </ul>
 {% endif %}

@@ -8,9 +8,12 @@ from random import randint
 
 class NewEntryForm(forms.Form):
     title = forms.CharField(label="Title")
-    entry = forms.CharField(
-        label="Create Entry", widget=forms.Textarea(attrs={"size": 3, "cols": 10})
-    )
+    entry = forms.CharField(label="Create Entry", widget=forms.Textarea)
+
+
+class EditEntryForm(forms.Form):
+    entry = forms.CharField(label="Edit Entry", widget=forms.Textarea)
+    title = forms.CharField(label = "Title")
 
 
 # GET request in form returns query result
@@ -21,7 +24,7 @@ def index(request):
         return render(
             request, "encyclopedia/entry.html", {"entries": util.get_entry(query)}
         )
-    # Check GET query in encycclopedia search entries
+    # Check GET query in encyclopedia search entries
     elif util.get_entry(query) is not query:
         entrylist = []
         for entry in util.list_entries():
@@ -38,7 +41,7 @@ def index(request):
     return render(request, "encyclopedia/index.html", {"entries": util.list_entries()})
 
 
-# Returns emtry and definition of title
+# Returns entry and definition of given title
 def entry(request, title):
     if util.get_entry(title) is None:
         return render(
@@ -47,7 +50,9 @@ def entry(request, title):
             {"message": f"The entry '{title}' does not exist in the encyclopdia"},
         )
     return render(
-        request, "encyclopedia/entry.html", {"entries": util.get_entry(title)}
+        request,
+        "encyclopedia/entry.html",
+        {"entry": util.get_entry(title), "title": title},
     )
 
 
@@ -59,7 +64,7 @@ def random(request):
     return render(
         request,
         "encyclopedia/entry.html",
-        {"entries": util.get_entry(list[random_num])},
+        {"random_entry": util.get_entry(list[random_num])},
     )
 
 
@@ -84,4 +89,31 @@ def add(request):
             return render(request, "encyclopedia/add.html", {"form": form})
 
     return render(request, "encyclopedia/add.html", {"form": NewEntryForm()})
+
+
+# Present entry content for editing with Markdown
+def edit(request):
+    if request.method == "POST":
+        form = EditEntryForm(request.POST)
+        if form.is_valid():
+            content = form.cleaned_data["entry"]
+            title = form.cleaned_data["title"]
+            util.save_entry(title, content)
+            return render(
+                request,
+                "encyclopedia/entry.html",
+                {"entry": util.get_entry(title), "title": title}
+            )
+            
+        else:
+            message = "Invalid form submission."
+            return render(request, "encyclopedia/edit.html", {"message": message})
+
+    title = request.GET["title"]
+    content = request.GET["content"]
+    return render(
+        request,
+        "encyclopedia/edit.html",
+        {"form": EditEntryForm(initial={"entry": content, "title": title})}
+    )
 
