@@ -7,8 +7,13 @@ Search result for {{ query }}
 {% block body %}
 
 {% if not entrylist %}
-{{ message }}
+<div class="alert alert-warning">
+  {{ message }}
+</div>
+
 {% else %}
+<h5>Search results</h5>
+<hr>
 <ul>
   {% for entry in entrylist %}
   <li><a href="{% url 'title' title=entry %}">{{ entry }}</a></li>

@@ -38,7 +38,7 @@ def index(request):
         entrylist = []
         for entry in util.list_entries():
             if query.casefold() in entry.casefold():
-                entrylist.append(entry),
+                entrylist.append(entry)
 
         return render(
             request,
@@ -54,13 +54,13 @@ def index(request):
     return render(request, "encyclopedia/index.html", {"entries": util.list_entries()})
 
 
-# Returns entry and definition of given title
+# Returns entry and content of given title
 def entry(request, title):
     if util.get_entry(title) is None:
         return render(
             request,
             "encyclopedia/error.html",
-            {"message": f"The entry '{title}' does not exist in the encyclopdia"},
+            {"message": f"The entry '{title}' does not exist in the encyclopdia."},
         )
     return render(
         request,
@@ -119,7 +119,7 @@ def edit(request):
             return render(
                 request,
                 "encyclopedia/entry.html",
-                {"entry": markdown(util.get_entry(title)), "title": title,},
+                {"entry": markdown(util.get_entry(title)), "title": title}
             )
 
         else:
