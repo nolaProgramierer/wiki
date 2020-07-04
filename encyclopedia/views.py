@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
 from . import util
-from random import randint
+from random import randint, random
 from markdown2 import markdown
 
 
@@ -65,7 +65,7 @@ def random(request):
     return render(
         request,
         "encyclopedia/entry.html",
-        {"entry": markdown(util.get_entry(list[random_num]))},
+        {"entry": markdown(util.get_entry(list[random_num])), "title": list[random_num]},
     )
 
 
@@ -114,7 +114,6 @@ def edit(request):
             return render(request, "encyclopedia/edit.html", {"message": message})
 
     title = request.GET["title"]
-    content = request.GET["content"]
     return render(
         request,
         "encyclopedia/edit.html",
