@@ -1,2 +1,2 @@
-#Sass
-A *good* styling system
+##Sass
+CSS with *superpowers*.
