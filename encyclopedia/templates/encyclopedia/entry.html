@@ -12,10 +12,10 @@
 <div class="card">
     <div class="card-body">
         {{ entry|safe }}
-    </div>  
+    </div>
 </div>
 
-<form action="/edit">
+<form action="/edit" id="edit-form">
     {% csrf_token %}
     <input type="hidden" name="content" value="{{entry}}">
     <input type="hidden" name="title" value={{title}}>
