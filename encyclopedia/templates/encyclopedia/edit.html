@@ -1,5 +1,6 @@
 {% extends "encyclopedia/layout.html" %}
 
+
 {% block title %}
 {{ title }}
 {% endblock %}
@@ -11,6 +12,6 @@
 {% csrf_token %}
 {{ message }}
 {{ form }}
-<input type="submit">
+<input type="submit" class="btn btn-primary">
 </form>
 {% endblock %}

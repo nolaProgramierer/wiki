@@ -8,13 +8,18 @@ from markdown2 import markdown
 
 
 class NewEntryForm(forms.Form):
-    title = forms.CharField(label="Title")
-    entry = forms.CharField(label="Create Entry", widget=forms.Textarea)
+    title = forms.CharField(label="Title", widget=forms.TextInput(attrs={"class": "form-control"}))
+    entry = forms.CharField(
+        label="Create Entry", widget=forms.Textarea(attrs={"class": "form-control"})
+    )
 
 
 class EditEntryForm(forms.Form):
-    entry = forms.CharField(label="Edit Entry", widget=forms.Textarea)
-    title = forms.CharField(label="Title")
+    title = forms.CharField(label="Title", widget=forms.TextInput(attrs={"class": "form-control"}))
+    entry = forms.CharField(
+        label="Edit Entry", widget=forms.Textarea(attrs={"class": "form-control"})
+    )
+   
 
 
 # GET request in form returns query result
@@ -65,7 +70,10 @@ def random(request):
     return render(
         request,
         "encyclopedia/entry.html",
-        {"entry": markdown(util.get_entry(list[random_num])), "title": list[random_num]},
+        {
+            "entry": markdown(util.get_entry(list[random_num])),
+            "title": list[random_num],
+        },
     )
 
 
@@ -103,10 +111,7 @@ def edit(request):
             return render(
                 request,
                 "encyclopedia/entry.html",
-                {
-                    "entry": markdown(util.get_entry(title)),
-                    "title": title,
-                },
+                {"entry": markdown(util.get_entry(title)), "title": title,},
             )
 
         else:
@@ -119,10 +124,7 @@ def edit(request):
         "encyclopedia/edit.html",
         {
             "form": EditEntryForm(
-                initial={
-                    "entry": util.get_entry(title),
-                    "title": title,
-                }
+                initial={"entry": util.get_entry(title), "title": title,}
             )
         },
     )
