@@ -8,33 +8,36 @@ from markdown2 import markdown
 
 
 class NewEntryForm(forms.Form):
-    title = forms.CharField(label="Title", widget=forms.TextInput(attrs={"class": "form-control"}))
+    title = forms.CharField(
+        label="Title", widget=forms.TextInput(attrs={"class": "form-control"})
+    )
     entry = forms.CharField(
         label="Create Entry", widget=forms.Textarea(attrs={"class": "form-control"})
     )
 
 
 class EditEntryForm(forms.Form):
-    title = forms.CharField(label="Title", widget=forms.TextInput(attrs={"class": "form-control"}))
+    title = forms.CharField(
+        label="Title", widget=forms.TextInput(attrs={"class": "form-control"})
+    )
     entry = forms.CharField(
         label="Edit Entry", widget=forms.Textarea(attrs={"class": "form-control"})
     )
-   
 
 
 # GET request in form returns query result
 # or the GET request returns list of all encyclopedia entries
 def index(request):
-    query = request.GET.get("q")
+    query = request.GET.get("q")   
     if util.get_entry(query):
         return render(
             request, "encyclopedia/entry.html", {"entries": util.get_entry(query)}
         )
-    # Check GET query in encyclopedia search entries
+    # Check incomplete, inexact and case insensitive GET query
     elif util.get_entry(query) is not query:
         entrylist = []
         for entry in util.list_entries():
-            if query in entry:
+            if query.casefold() in entry.casefold():
                 entrylist.append(entry)
         context = {
             "entries": util.list_entries(),
@@ -124,7 +127,7 @@ def edit(request):
         "encyclopedia/edit.html",
         {
             "form": EditEntryForm(
-                initial={"entry": util.get_entry(title), "title": title,}
+                initial={"entry": util.get_entry(title), "title": title}
             )
         },
     )
