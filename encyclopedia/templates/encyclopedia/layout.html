@@ -6,43 +6,44 @@
 
 <head>
     <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link href="{% static 'encyclopedia/styles.css' %}" rel="stylesheet">
 </head>
 
 <body>
+    <div class="container-fluid">
 
-    <div class="row">
-        <div class="sidebar col-lg-2 col-md-3">
-            <h2 class="text-center">Wiki</h2>
-            <form>
-                <input class="search" type="text" name="q" placeholder="Search Encyclopedia">
-            </form>
-            <div>
-                <a href="{% url 'index' %}">Home</a>
-            </div>
-            <div>
-                <a href="{% url 'add' %}"">Create New Page</a>
+        <div class="row">
+            <div class="sidebar col-lg-2 col-md-3 col-sm-4">
+                <h2 class="text-center">Wiki</h2>
+                <form>
+                    <input class="search" type="text" name="q" placeholder="Search Encyclopedia">
+                </form>
+                <div>
+                    <a href="{% url 'index' %}">Home</a>
                 </div>
                 <div>
-                    <a href=" {% url 'random' %}">Random Page</a>
+                    <a href="{% url 'add' %}"">Create New Page</a>
+                    </div>
+                    <div>
+                        <a href=" {% url 'random' %}">Random Page</a>
+                </div>
+                {% block nav %}
+                {% endblock %}
             </div>
-            {% block nav %}
-            {% endblock %}
-        </div>
-        <div class="container">
-            <div class="main col-lg-10 col-md-9">
+        
+            <div class="main col-lg-10 col-md-9 col-sm-8">
                 {% block body %}
                 {% endblock %}
             </div>
+        
         </div>
-
-
-
-
+    
+        
     </div>
-
+    
 </body>
 
 </html>
