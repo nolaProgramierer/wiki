@@ -1,2 +1,2 @@
 ### Java
-Prefer [C++](,https://en.wikipedia.org/wiki/C%2B%2BC++).
+Prefer [C++](https://en.wikipedia.org/wiki/C%2B%2BC++).

@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
 from . import util
-from random import randint, random
+from random import randint
 from markdown2 import markdown
 
 
@@ -28,7 +28,7 @@ class EditEntryForm(forms.Form):
 # GET request in form returns query result
 # or the GET request returns list of all encyclopedia entries
 def index(request):
-    query = request.GET.get("q")   
+    query = request.GET.get("q")
     if util.get_entry(query):
         return render(
             request, "encyclopedia/entry.html", {"entries": util.get_entry(query)}
@@ -38,14 +38,18 @@ def index(request):
         entrylist = []
         for entry in util.list_entries():
             if query.casefold() in entry.casefold():
-                entrylist.append(entry)
-        context = {
-            "entries": util.list_entries(),
-            "entrylist": entrylist,
-            "query": query,
-            "message": f"'{query}' does not match any entry.",
-        }
-        return render(request, "encyclopedia/search.html", context)
+                entrylist.append(entry),
+
+        return render(
+            request,
+            "encyclopedia/search.html",
+            {
+                "entries": util.list_entries(),
+                "entrylist": entrylist,
+                "query": query,
+                "message": f"'{query}' does not match any entry.",
+            },
+        )
 
     return render(request, "encyclopedia/index.html", {"entries": util.list_entries()})
 
@@ -67,6 +71,7 @@ def entry(request, title):
 
 # Returns random encyclopedia entry
 def random(request):
+    # n.B. Could not get 'choice()' to import; worked in terminal though
     list = util.list_entries()
     length = len(list)
     random_num = randint(0, length - 1)
