@@ -2,11 +2,11 @@
 
 
 {% block title %}
-{{ title }}
+{{ title }} Edit
 {% endblock %}
 
 {% block body %}
-<h4> Edit {{ title }} content</h4>
+<h4> Edit <i>{{ title }}</i> content</h4>
 <h6> Please use markdown when editing</h6>
 <hr>
 <form action="{% url 'edit' %}" method="POST">

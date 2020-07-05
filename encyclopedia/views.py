@@ -133,7 +133,7 @@ def edit(request):
         {
             "form": EditEntryForm(
                 initial={"entry": util.get_entry(title), "title": title}
-            )
-        },
+            ), "title": title
+        }
     )
 
