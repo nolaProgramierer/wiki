@@ -34,6 +34,7 @@ def index(request):
             request, "encyclopedia/entry.html", {"entries": util.get_entry(query)}
         )
     # Check incomplete, inexact and case insensitive GET query
+    # Will return substring regardless of case
     elif util.get_entry(query) is not query:
         entrylist = []
         for entry in util.list_entries():
@@ -81,7 +82,7 @@ def random(request):
         {
             "entry": markdown(util.get_entry(list[random_num])),
             "title": list[random_num],
-        }
+        },
     )
 
 
@@ -119,7 +120,7 @@ def edit(request):
             return render(
                 request,
                 "encyclopedia/entry.html",
-                {"entry": markdown(util.get_entry(title)), "title": title}
+                {"entry": markdown(util.get_entry(title)), "title": title},
             )
 
         else:
@@ -133,6 +134,7 @@ def edit(request):
         {
             "form": EditEntryForm(
                 initial={"entry": util.get_entry(title), "title": title}
-            ), "title": title
-        }
+            ),
+            "title": title,
+        },
     )
