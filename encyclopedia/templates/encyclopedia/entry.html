@@ -1,12 +1,10 @@
 {% extends "encyclopedia/layout.html" %}
 
-
 {% block title %}
 {{ title }}
 {% endblock %}
 
 {% block body %}
-
 
 <div class="card">
     <div class="card-header">
@@ -24,7 +22,7 @@
     </div>
     <div class="form-group">
         <input type="hidden" name="title" value={{title}}>
-    </div>    
+    </div>
     <button type="submit" class="btn btn-outline-primary form-control">Edit Entry</button>
 </form>
 

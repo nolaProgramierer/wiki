@@ -81,7 +81,7 @@ def random(request):
         {
             "entry": markdown(util.get_entry(list[random_num])),
             "title": list[random_num],
-        },
+        }
     )
 
 
@@ -136,4 +136,3 @@ def edit(request):
             ), "title": title
         }
     )
-
