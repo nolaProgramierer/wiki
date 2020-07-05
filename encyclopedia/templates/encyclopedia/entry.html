@@ -7,9 +7,11 @@
 
 {% block body %}
 
-<h4>{{ title|safe }}</h4>
-<hr>
+
 <div class="card">
+    <div class="card-header">
+        {{ title|safe }}
+    </div>
     <div class="card-body">
         {{ entry|safe }}
     </div>
@@ -23,7 +25,7 @@
     <div class="form-group">
         <input type="hidden" name="title" value={{title}}>
     </div>    
-    <button type="submit" class="btn btn-primary form-control">Edit Entry</button>
+    <button type="submit" class="btn btn-outline-primary form-control">Edit Entry</button>
 </form>
 
 {% endblock %}
