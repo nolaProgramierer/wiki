@@ -25,36 +25,12 @@ class EditEntryForm(forms.Form):
     )
 
 
-# GET request in form returns query result
-# or the GET request returns list of all encyclopedia entries
+# Returns all entries
 def index(request):
-    query = request.GET.get("q")
-    if util.get_entry(query):
-        return render(
-            request, "encyclopedia/entry.html", {"entries": util.get_entry(query)}
-        )
-    # Check incomplete, inexact and case insensitive GET query
-    # Will return substring regardless of case
-    elif util.get_entry(query) is not query:
-        entrylist = []
-        for entry in util.list_entries():
-            if query.casefold() in entry.casefold():
-                entrylist.append(entry)
-
-        return render(
-            request,
-            "encyclopedia/search.html",
-            {
-                "entries": util.list_entries(),
-                "entrylist": entrylist,
-                "query": query,
-                "message": f"'{query}' does not match any entry.",
-            },
-        )
-
-    return render(request, "encyclopedia/index.html", {"entries": util.list_entries()})
-
-
+    entries = util.list_entries()
+    return render(request, "encyclopedia/index.html", {"entries": entries})
+ 
+ 
 # Returns entry and content of given title
 def entry(request, title):
     content = util.get_entry(title)
