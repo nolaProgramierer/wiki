@@ -57,7 +57,8 @@ def index(request):
 
 # Returns entry and content of given title
 def entry(request, title):
-    if util.get_entry(title) is None:
+    content = util.get_entry(title)
+    if content is None:
         return render(
             request,
             "encyclopedia/error.html",
@@ -66,7 +67,7 @@ def entry(request, title):
     return render(
         request,
         "encyclopedia/entry.html",
-        {"entry": markdown(util.get_entry(title)), "title": title},
+        {"entry": markdown(content), "title": title},
     )
 
 

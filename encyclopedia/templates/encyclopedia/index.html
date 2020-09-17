@@ -10,7 +10,7 @@ Encyclopedia
         <h5 class="card-title text-center">Encyclopedia Entries</h5>
         <ul class="list-group list-group-flush">
             {% for entry in entries %}
-            <li class="list-group-item list-group-item-action"><a href="{% url 'title' title=entry %}">{{entry}}</a>
+            <li class="list-group-item list-group-item-action"><a href="{% url 'entry' entry %}">{{entry}}</a>
             </li>
             {% endfor %}
         </ul>
