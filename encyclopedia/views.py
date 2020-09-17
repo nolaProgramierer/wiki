@@ -29,8 +29,8 @@ class EditEntryForm(forms.Form):
 def index(request):
     entries = util.list_entries()
     return render(request, "encyclopedia/index.html", {"entries": entries})
- 
- 
+
+
 # Returns entry and content of given title
 def entry(request, title):
     content = util.get_entry(title)
@@ -44,6 +44,25 @@ def entry(request, title):
         request,
         "encyclopedia/entry.html",
         {"entry": markdown(content), "title": title},
+    )
+
+
+# Search for entry
+def search(request):
+    query = request.GET.get("q", "")
+    if util.get_entry(query):
+        return HttpResponseRedirect(reverse("entry", args=(query,)))
+    entries = util.list_entries()
+
+    results = []
+    for entry in entries:
+        if query.lower() in entry.lower():
+            results.append(entry)
+    # results = [entry for entry in entries if query.lower() in entry.lower()]
+    return render(
+        request,
+        "encyclopedia/results.html",
+        {"results": list(sorted(results)), "query": query},
     )
 
 
@@ -79,9 +98,9 @@ def add(request):
                 )
             else:
                 util.save_entry(title, entry)
-            return HttpResponseRedirect(reverse("index"))
-        else:
-            return render(request, "encyclopedia/add.html", {"form": form})
+            return HttpResponseRedirect(reverse("entry", args=(title,)))
+
+        return render(request, "encyclopedia/add.html", {"form": form})
 
     return render(request, "encyclopedia/add.html", {"form": NewEntryForm()})
 
@@ -94,6 +113,7 @@ def edit(request):
             content = form.cleaned_data["entry"]
             title = form.cleaned_data["title"]
             util.save_entry(title, content)
+            # return HttpResponseRedirect(reverse("entry", args=(title,)))
             return render(
                 request,
                 "encyclopedia/entry.html",
@@ -115,3 +135,4 @@ def edit(request):
             "title": title,
         },
     )
+
