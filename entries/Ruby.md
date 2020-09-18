@@ -1,1 +1,1 @@
-Elegant language
+Elegant language.  A must for RoR.

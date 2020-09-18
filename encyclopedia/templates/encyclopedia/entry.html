@@ -15,15 +15,8 @@
     </div>
 </div>
 
-<form action="/edit">
-    {% csrf_token %}
-    <div class="form-group">
-        <input type="hidden" name="content" value="{{entry}}">
-    </div>
-    <div class="form-group">
-        <input type="hidden" name="title" value={{title}}>
-    </div>
-    <button type="submit" class="btn btn-outline-primary form-control">Edit Entry</button>
-</form>
+<p>
+    <a href="{% url 'edit' title %}" class="btn btn-outline-primary form-control">Edit entry</a>
+</p>
 
 {% endblock %}

@@ -1,6 +1,5 @@
 {% extends "encyclopedia/layout.html" %}
 
-
 {% block title %}
 {{ title }} Edit
 {% endblock %}
@@ -9,11 +8,13 @@
 <h4> Edit <i>{{ title }}</i> content</h4>
 <h6> Please use markdown when editing</h6>
 <hr>
-<form action="{% url 'edit' %}" method="POST">
+<form action="{% url 'edit' title %}" method="POST">
     {% csrf_token %}
+    {% if message %}
     <div class="form-group">
         {{ message }}
     </div>
+    {% endif %}
     <div class="form-group">
         {{ form }}
     </div>

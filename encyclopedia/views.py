@@ -106,14 +106,14 @@ def add(request):
 
 
 # Present entry content for editing with Markdown
-def edit(request):
+# Save edited entry
+def edit(request, title):
     if request.method == "POST":
         form = EditEntryForm(request.POST)
         if form.is_valid():
             content = form.cleaned_data["entry"]
-            title = form.cleaned_data["title"]
+            # title = form.cleaned_data["title"]
             util.save_entry(title, content)
-            # return HttpResponseRedirect(reverse("entry", args=(title,)))
             return render(
                 request,
                 "encyclopedia/entry.html",
@@ -124,7 +124,6 @@ def edit(request):
             message = "Invalid form submission."
             return render(request, "encyclopedia/edit.html", {"message": message})
 
-    title = request.GET["title"]
     return render(
         request,
         "encyclopedia/edit.html",
