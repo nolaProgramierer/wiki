@@ -6,7 +6,7 @@ from . import util
 from random import randint
 from markdown2 import markdown
 
-
+# Form to add entries
 class NewEntryForm(forms.Form):
     title = forms.CharField(
         label="Title", widget=forms.TextInput(attrs={"class": "form-control"})
@@ -16,6 +16,7 @@ class NewEntryForm(forms.Form):
     )
 
 
+# Form to edit entries
 class EditEntryForm(forms.Form):
     title = forms.CharField(
         label="Title", widget=forms.TextInput(attrs={"class": "form-control"})
@@ -50,10 +51,12 @@ def entry(request, title):
 # Search for entry
 def search(request):
     query = request.GET.get("q", "")
+    # If entry is an exact match
     if util.get_entry(query):
         return HttpResponseRedirect(reverse("entry", args=(query,)))
-    entries = util.list_entries()
 
+    # Return matches of entries with letters in the query
+    entries = util.list_entries()
     results = []
     for entry in entries:
         if query.lower() in entry.lower():
@@ -84,23 +87,23 @@ def random(request):
 
 # Adds page for new entry through form POST
 def add(request):
-    entries = util.list_entries()
     if request.method == "POST":
+        entries = util.list_entries()
         form = NewEntryForm(request.POST)
         if form.is_valid():
             entry = form.cleaned_data["entry"]
             title = form.cleaned_data["title"]
+            # Check if entry already exists
             if title in entries:
                 return render(
                     request,
                     "encyclopedia/error.html",
                     {"message": f"The entry '{title}' already exists."},
                 )
+            # Save entry
             else:
                 util.save_entry(title, entry)
             return HttpResponseRedirect(reverse("entry", args=(title,)))
-
-        return render(request, "encyclopedia/add.html", {"form": form})
 
     return render(request, "encyclopedia/add.html", {"form": NewEntryForm()})
 
